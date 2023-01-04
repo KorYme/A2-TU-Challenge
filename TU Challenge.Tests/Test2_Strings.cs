@@ -4,7 +4,7 @@ namespace TU_Challenge.Tests
     /// Exercice 2, cette fois-ci on fait un peu d'algorythme jouant avec des boucles
     /// Pour rendre les tests visible, tu dois passer le "#if false" à "#if true" ligne 7
     /// </summary>
-#if false
+#if true
     public class Test2_Strings
     {
         [Test]
@@ -39,7 +39,6 @@ namespace TU_Challenge.Tests
         [TestCase("AB", "")]
         public void BreakMixStrings(string a, string b)
         {
-
             Assert.Throws<ArgumentException>(() =>
             {
                 MyStringImplementation.MixString(a, b);
@@ -73,10 +72,10 @@ namespace TU_Challenge.Tests
 
         [Test]
         [TestCase("IIM", "MII")]
-        [TestCase("HelloWorld", "dlrorWolleH")]
+        [TestCase("HelloWorld", "dlroWolleH")]
         public void Reverse(string a, string expected)
         {
-            string result = MyStringImplementation.Voyelles(a);
+            string result = MyStringImplementation.Reverse(a);
             Assert.That(result, Is.EqualTo(expected));
         }
 

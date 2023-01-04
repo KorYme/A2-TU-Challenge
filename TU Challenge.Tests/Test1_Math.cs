@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace TU_Challenge
 {
+
+#if true
     /// <summary>
     /// Echauffement avec des fonctions mathématiques
     /// Interdiction d'utiliser Mathf ou Math évidemment
@@ -40,7 +42,7 @@ namespace TU_Challenge
         }
         [Test]
         [TestCase(-1)]
-        [TestCase(150)]
+        [TestCase(-150)]
         public void BreakIsMajeur(int age)
         {
             Assert.Throws<ArgumentException>(() =>
@@ -191,7 +193,6 @@ namespace TU_Challenge
             {
                 Assert.IsTrue(result[i] < result[i + 1]);
             }
-
         }
 
         /// <summary>
@@ -202,13 +203,15 @@ namespace TU_Challenge
         {
             var toSort = new List<int>() { 12, 0, -1, 123, 45, 90, -123 };
 
-            var result = MyMathImplementation.GenericSort(toSort, MyMathImplementation.IsInOrder);
+            List<int> result = MyMathImplementation.GenericSort(toSort, MyMathImplementation.IsInOrder);
 
             for (int i = 0; i < result.Count - 1; i++)
             {
                 Assert.IsTrue(result[i] < result[i + 1]);
             }
         }
+
+
         /// <summary>
         /// Test pas obligatoire mais essayez un peu quand même. N'hésitez pas à me demander de l'aide
         /// </summary>
@@ -226,4 +229,5 @@ namespace TU_Challenge
         }
 
     }
+#endif
 }

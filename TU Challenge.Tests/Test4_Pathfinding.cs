@@ -14,10 +14,10 @@ namespace TU_Challenge.Tests
     /// Ces TU ne représentent que le premier algo : Breadth First Search
     /// Pour rendre les tests visible, tu dois passer le "#if false" à "#if true" ligne 17
     /// </summary>
-#if false
+#if true
     public class Test4_Pathfinding
     {
-#region
+    #region MAPS
         const string _map1 = "_____\n" +
                              "__X__\n" +
                              "_____";
@@ -33,13 +33,12 @@ namespace TU_Challenge.Tests
                              "__X__\n" +
                              "__X__\n" +
                              "__X__";
-#endregion
-
+        #endregion
         [Test]
         public void TestConstructMap1()
         {
 
-            var p = new Pathfinding(_map1);
+            Pathfinding p = new Pathfinding(_map1);
 
             Assert.IsTrue(p.Grid.GetLength(0) == 3);
             Assert.IsTrue(p.Grid.GetLength(1) == 5);
@@ -109,7 +108,7 @@ namespace TU_Challenge.Tests
         public void GetNeighboors(int x, int y, int countExpected)
         {
             Pathfinding p = new Pathfinding(_map1);
-            var result = p.GetNeighboors(new Vector2(x, y));
+            List<Vector2> result = p.GetNeighboors(new Vector2(x, y));
             Assert.IsTrue(result.Count == countExpected);
         }
 
@@ -154,7 +153,7 @@ namespace TU_Challenge.Tests
             }
 
             Pathfinding p = new Pathfinding(map);
-            var path = p.BreadthFirstSearch(start, destination);
+            Path path = p.BreadthFirstSearch(start, destination);
 
             bool isComplete = path.IsComplete(start, destination);
             Assert.IsTrue(isComplete == pathFound);
@@ -167,7 +166,6 @@ namespace TU_Challenge.Tests
                 }
             }
         }
-
     }
 #endif
 }
