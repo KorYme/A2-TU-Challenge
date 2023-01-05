@@ -166,6 +166,39 @@ namespace TU_Challenge.Tests
                 }
             }
         }
+
+        [Test]
+        [TestCase(0, 0, 2, 4, 1, true)]
+        [TestCase(0, 0, 2, 4, 2, true)]
+        [TestCase(4, 0, 2, 4, 2, true)]
+        [TestCase(0, 0, 2, 4, 3, false)]
+        public void AStarSearch(int startX, int startY, int destX, int destY, int mapIndex, bool pathFound)
+        {
+            Vector2 start = new Vector2(startX, startY);
+            Vector2 destination = new Vector2(destX, destY);
+            string map = "";
+            switch (mapIndex)
+            {
+                case 1: map = _map1; break;
+                case 2: map = _map2; break;
+                case 3: map = _map3; break;
+                default: break;
+            }
+
+            Pathfinding p = new Pathfinding(map);
+            Path path = p.AStarPathFinding(start, destination);
+
+            bool isComplete = path.IsComplete(start, destination);
+            Assert.IsTrue(isComplete == pathFound);
+
+            if (isComplete)
+            {
+                foreach (var el in path.CompletePath)
+                {
+                    Assert.IsTrue(p.GetCoord(el) == '_');
+                }
+            }
+        }
     }
 #endif
 }

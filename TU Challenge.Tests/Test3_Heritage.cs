@@ -11,7 +11,7 @@ namespace TU_Challenge.Tests
     /// Exercice 3 : on attaque l'héritage avec virtual/override, évènements et protected
     /// Pour rendre les tests visible, tu dois passer le "#if false" à "#if true" ligne 14
     /// </summary>
-#if false
+#if true
     public class Test3_Heritage
     {
         [Test]

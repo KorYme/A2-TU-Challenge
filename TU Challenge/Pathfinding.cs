@@ -76,11 +76,22 @@ namespace TU_Challenge
             return neighboors;
         }
 
+        public char GetCoord(Vector2 el)
+        {
+            Assert.IsFalse(IsOutOfBound(el));
+            return Grid[el.X, el.Y];
+        }
+
+        private int DistanceOnSquaredMap(Vector2 a, Vector2 b)
+        {
+            return Math.Abs(a.Y - b.Y) + Math.Abs(a.X - b.X);
+        }
+
         public Path BreadthFirstSearch(Vector2 start, Vector2 destination)
         {
-            Dictionary<Vector2, Vector2> origins = new Dictionary<Vector2, Vector2>();
             Queue<Vector2> frontier = new Queue<Vector2>();
             frontier.Enqueue(start);
+            Dictionary<Vector2, Vector2> origin = new Dictionary<Vector2, Vector2>();
             bool notArrived = true;
             while (notArrived && frontier.Count != 0)
             {
@@ -90,12 +101,11 @@ namespace TU_Challenge
                     if (item == destination)
                     {
                         notArrived = false;
-                        origins.Add(item, currentPosition);
+                        origin.Add(item, currentPosition);
                         break;
                     }
-                    if (origins.ContainsKey(item)) continue;
-                    origins.Add(item, currentPosition);
-                    if (GetCoord(item) == 'X') continue;
+                    if (origin.ContainsKey(item)) continue;
+                    origin.Add(item, currentPosition);
                     frontier.Enqueue(item);
                 }
             }
@@ -106,16 +116,49 @@ namespace TU_Challenge
                 while (currentPosition != start)
                 {
                     path.CompletePath.Insert(1,currentPosition);
-                    currentPosition = origins[currentPosition];
+                    currentPosition = origin[currentPosition];
                 }
             }
             return path;
         }
 
-        public char GetCoord(Vector2 el)
+        public Path AStarPathFinding(Vector2 start, Vector2 destination)
         {
-            Assert.IsFalse(IsOutOfBound(el));
-            return Grid[el.X, el.Y];
+            PriorityQueue<Vector2, int> frontier = new();
+            frontier.Enqueue(start, 0);
+            Dictionary<Vector2, Vector2> origin = new();
+            Dictionary<Vector2, int> costToStart = new();
+            costToStart.Add(start, 0);
+            bool notArrived = true;
+            while (notArrived && frontier.Count != 0)
+            {
+                Vector2 currentPosition = frontier.Dequeue();
+                foreach (Vector2 item in GetNeighboors(currentPosition))
+                {
+                    if (item == destination)
+                    {
+                        notArrived = false;
+                        origin.Add(item, currentPosition);
+                        break;
+                    }
+                    if (origin.ContainsKey(item)) continue;
+                    int new_cost = costToStart[currentPosition]/*+ Coût de la case*/;
+                    costToStart[item] = new_cost;
+                    frontier.Enqueue(item, new_cost + DistanceOnSquaredMap(item, destination));
+                    origin.Add(item, currentPosition);
+                }
+            }
+            Path path = new Path(start);
+            if (!notArrived)
+            {
+                Vector2 currentPosition = destination;
+                while (currentPosition != start)
+                {
+                    path.CompletePath.Insert(1, currentPosition);
+                    currentPosition = origin[currentPosition];
+                }
+            }
+            return path;
         }
     }
 
