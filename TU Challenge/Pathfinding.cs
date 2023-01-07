@@ -141,11 +141,19 @@ namespace TU_Challenge
                         origin.Add(item, currentPosition);
                         break;
                     }
-                    if (origin.ContainsKey(item)) continue;
-                    int new_cost = costToStart[currentPosition]/*+ Coût de la case*/;
-                    costToStart[item] = new_cost;
-                    frontier.Enqueue(item, new_cost + DistanceOnSquaredMap(item, destination));
-                    origin.Add(item, currentPosition);
+                    int new_cost = costToStart[currentPosition] + 1;
+                    if (!origin.ContainsKey(item))
+                    {
+                        costToStart[item] = new_cost;
+                        frontier.Enqueue(item, new_cost + DistanceOnSquaredMap(item, destination));
+                        origin.Add(item, currentPosition);
+                    }
+                    else if (new_cost < costToStart[item])
+                    {
+                        costToStart[item] = new_cost;
+                        frontier.Enqueue(item, new_cost + DistanceOnSquaredMap(item, destination));
+                        origin[item] = currentPosition;
+                    }
                 }
             }
             Path path = new Path(start);
